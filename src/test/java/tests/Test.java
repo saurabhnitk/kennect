@@ -25,4 +25,12 @@ public class Test extends BaseTest{
 		homepage.selectDiscount();
 	}
 
+	@Test(description="verify user is able to add patient",priority=3)
+	public void addPatient() throws InterruptedException {
+		patientPage.clickPatients();
+		patientPage.clickAddPatientButton();
+		patientPage.enterPatientContactDetails("saurabh", "abc@xyz.com", "9999999999");
+		
+	}
+	
 }

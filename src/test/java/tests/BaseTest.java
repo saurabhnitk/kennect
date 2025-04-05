@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pageObjects.HomePage;
 import pageObjects.Login;
+import pageObjects.PatientsPage;
 
 public class BaseTest {
 	
@@ -21,6 +22,7 @@ public class BaseTest {
 	
 	public Login login; 
 	public HomePage homepage;
+	public PatientsPage patientPage;
 
 	@BeforeClass
 	public void setUp() {
@@ -30,6 +32,7 @@ public class BaseTest {
     	driver.get("https://gor-pathology.web.app/");
     	login = new Login(driver);
     	homepage = new HomePage(driver);
+    	patientPage = new PatientsPage(driver);
 	}
 	
 	@AfterClass

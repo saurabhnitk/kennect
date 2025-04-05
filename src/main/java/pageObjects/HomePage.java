@@ -42,5 +42,6 @@ public class HomePage {
 		a.click(discountField).perform();
 		Thread.sleep(1000);
 		a.sendKeys(Keys.ENTER).perform();
+		Thread.sleep(2000);
 	}
 }
