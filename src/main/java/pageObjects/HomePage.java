@@ -20,7 +20,7 @@ public class HomePage {
 
 	@FindBy(xpath="//label[text()='Discount']/following-sibling::div")
 	WebElement discountField;
-	
+		
 	public HomePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);

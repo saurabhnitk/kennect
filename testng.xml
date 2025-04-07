@@ -8,7 +8,7 @@
 		<parameter name="email" value="test@kennect.io" />
 		<parameter name="password" value="Qwerty@1234" />
 		<classes>
-			<class name="tests.Test" />	
+			<class name="tests.Testcases" />	
 		</classes>
 	</test>	
 </suite> <!-- Suite -->

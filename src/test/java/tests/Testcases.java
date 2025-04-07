@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import tests.BaseTest;
 
-public class Test extends BaseTest{
+public class Testcases extends BaseTest{
 	
 	WebDriver driver;
 
@@ -29,8 +29,18 @@ public class Test extends BaseTest{
 	public void addPatient() throws InterruptedException {
 		patientPage.clickPatients();
 		patientPage.clickAddPatientButton();
-		patientPage.enterPatientContactDetails("saurabh", "abc@xyz.com", "9999999999");
-		
+		patientPage.enterPatientContactDetails("saurabh", "abc070425@xyz.com", "2037070425");
+		patientPage.clickGeneralDetailsButton();
+		patientPage.enterGeneralDetails("162","63","28","116","80");
+		patientPage.selectGender();
+		patientPage.clickAddTestsButton();
+		homepage.addTestForPatient();
+		patientPage.selectLab();
+		patientPage.selectDoctor();
+		patientPage.selectCommission("10");
+		patientPage.clickAddEquipment("injection");
+		patientPage.clickAddIcon();
+		patientPage.clickAddTestsButton();
 	}
 	
 }
