@@ -1,6 +1,7 @@
 package tests;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -20,9 +21,11 @@ public class Testcases extends BaseTest{
 
 	@Test(description="verify user is able to select test and apply discount",priority=2)
 	public void selectTest() throws InterruptedException {
+		homepage.waitTillDashboardIsDisplayed();
+		//Thread.sleep(1000);
 		homepage.scrollToCostCalculator();
 		homepage.addTestForPatient();
-		homepage.selectDiscount();
+		homepage.selectDiscount("5");
 	}
 
 	@Test(description="verify user is able to add patient",priority=3)
@@ -32,7 +35,8 @@ public class Testcases extends BaseTest{
 		patientPage.enterPatientContactDetails("saurabh", "abc070425@xyz.com", "2037070425");
 		patientPage.clickGeneralDetailsButton();
 		patientPage.enterGeneralDetails("162","63","28","116","80");
-		patientPage.selectGender();
+		patientPage.selectGender("Male");
+		patientPage.scrollToAddTestButton();
 		patientPage.clickAddTestsButton();
 		homepage.addTestForPatient();
 		patientPage.selectLab();
@@ -41,6 +45,7 @@ public class Testcases extends BaseTest{
 		patientPage.clickAddEquipment("injection");
 		patientPage.clickAddIcon();
 		patientPage.clickAddTestsButton();
+		Assert.assertTrue(patientPage.getPatientAddedText().contains("Patient added"), "error in adding patient");
 	}
 	
 }

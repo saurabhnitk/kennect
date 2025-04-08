@@ -3,6 +3,7 @@ package pageObjects;
 import java.time.Duration;
 import java.util.List;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,8 +41,11 @@ public class PatientsPage {
 	@FindBy(name="weight")
 	WebElement weightField;
 	
-	@FindBy(xpath="//label[text()='Gender']/following-sibling::div")
+	@FindBy(id="mui-component-select-gender")
 	WebElement genderField;
+	
+	@FindBy(xpath="//ul[@class='MuiList-root MuiMenu-list MuiList-padding']/li")
+	List<WebElement> genderOptions;
 	
 	@FindBy(name="age")
 	WebElement ageField;
@@ -82,6 +86,9 @@ public class PatientsPage {
 	@FindBy(xpath="//tr[@class='MuiTableRow-root']/td[4]/div/button[1]")
 	WebElement addIcon;
 	
+	@FindBy(xpath="//div[text()='Patient added successfully.']")
+	WebElement patientAddedText;
+	
 	public PatientsPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -95,11 +102,11 @@ public class PatientsPage {
 
 	public void clickAddPatientButton() {
 		addPatientButton.click();
-		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
-		wait.until(ExpectedConditions.visibilityOf(nameField));
 	}
 	
 	public void enterPatientContactDetails(String name,String email,String phone) {
+		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOf(nameField));
 		nameField.sendKeys(name);
 		emailField.sendKeys(email);
 		phoneField.sendKeys(phone);
@@ -119,8 +126,23 @@ public class PatientsPage {
 		diastolicField.sendKeys(diastolic);
 	}
 	
-	public void selectGender() {
-		
+	public void selectGender(String gender) {
+		genderField.click();
+		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfAllElements(genderOptions));
+		int n = genderOptions.size();
+		for(int i=0;i<n;i++) {
+			String s = genderOptions.get(i).getText();
+			if(s.contains(gender)) {
+				genderOptions.get(i).click();
+				break;
+			}
+		}
+	}
+	
+	public void scrollToAddTestButton() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", addTestsButton);		
 	}
 	
 	public void clickAddTestsButton() {
@@ -131,6 +153,8 @@ public class PatientsPage {
 	
 	public void selectCommission(String commission) {
 		commissionField.click();
+		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfAllElements(commissionOptions));
 		int n = commissionOptions.size();
 		for(int i=0;i<n;i++) {
 			String s = commissionOptions.get(i).getText();
@@ -153,12 +177,17 @@ public class PatientsPage {
 		a.click(doctorField).perform();
 		Thread.sleep(1000);
 		a.sendKeys(Keys.ENTER).perform();
+		Thread.sleep(1000);
 	}
 	
 	public void clickAddEquipment(String equipment) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", addEquipmentIcon);		
 		addEquipmentIcon.click();
 		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
 		wait.until(ExpectedConditions.visibilityOf(equipmentNameDropdown));	
+		equipmentNameDropdown.click();
+		wait.until(ExpectedConditions.visibilityOfAllElements(equipmentOptions));
 		int n = equipmentOptions.size();
 		for(int i=0;i<n;i++) {
 			String s = equipmentOptions.get(i).getText();
@@ -172,5 +201,11 @@ public class PatientsPage {
 	public void clickAddIcon() throws InterruptedException {
 		addIcon.click();
 		Thread.sleep(3000);
+	}
+	
+	public String getPatientAddedText() {
+		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(40));
+		wait.until(ExpectedConditions.visibilityOf(patientAddedText));	
+		return patientAddedText.getText();
 	}
 }
